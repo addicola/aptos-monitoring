@@ -1,0 +1,16 @@
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: aptos-grafana
+    restart: unless-stopped
+    volumes:
+      - grafana-volume:/var/lib/grafana:rw
+    environment:
+      - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+    ports:
+      - ${GRAFANA_SERVER_PORT:-3000}:3000
+
+volumes:
+  grafana-volume:
+    name: grafana-volume
