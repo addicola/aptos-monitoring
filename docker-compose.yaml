@@ -25,6 +25,7 @@ services:
     volumes:
       - prometheus-volume:/prometheus:rw
       - ./prometheus/docker-entrypoin.sh:/docker-entrypoint.sh
+      - ./prometheus/rules:/etc/prometheus/rules
     command:
       - --web.enable-lifecycle
       - --web.console.libraries=/etc/prometheus/console_libraries
@@ -38,11 +39,29 @@ services:
     networks:
       - monitor-net
 
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: aptos-alertmanager
+    restart: unless-stopped
+    volumes:
+      - ./alertmanager:/etc/alertmanager:ro
+      - alertmanager-volume:/alertmanager:rw
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yaml
+    networks:
+      - monitor-net
+    depends_on:
+      - prometheus
+    ports:
+      - ${ALERTMANAGER_SERVER_PORT:-9093}:9093
+
 volumes:
   grafana-volume:
     name: grafana-volume
   prometheus-volume:
     name: prometheus-volume
+  alertmanager-volume:
+    name: alertmanager-volume
 
 networks:
   monitor-net:
