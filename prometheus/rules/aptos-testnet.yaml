@@ -2,7 +2,7 @@ groups:
   - name: aptos
     rules:
       - alert: AptosDown
-        expr: up{job="aptos"} == 0
+        expr: up{job="aptos", chain="testnet"} == 0
         for: 3m
         annotations:
           title: "Instance {{ $labels.instance }} down"
@@ -19,7 +19,7 @@ groups:
           summary: "Aptos Node Down"
           description: "Service {{ $labels.instance }} is not syncing."
       - alert: AptosInstanceDown
-        expr: up{job="aptos"} == 0
+        expr: up{job="aptos", chain="testnet"} == 0
         for: 1m
         labels:
           severity: critical

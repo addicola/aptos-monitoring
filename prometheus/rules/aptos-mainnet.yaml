@@ -19,7 +19,7 @@ groups:
           summary: "Aptos Node Down"
           description: "Service {{ $labels.instance }} is not syncing."
       - alert: AptosInstanceDown
-        expr: up{job="aptos"} == 0
+        expr: up{job="aptos", chain="mainnet"} == 0
         for: 1m
         labels:
           severity: critical
