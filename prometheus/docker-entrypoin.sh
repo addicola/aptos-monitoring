@@ -27,6 +27,17 @@ scrape_configs:
           ]
         labels:
           chain: testnet
+
+      - targets:
+          [
+            # Validator
+            "${MAINNET_VALIDATOR_IP}:${MAINNET_VALIDATOR_PORT}",
+
+            # VFN
+            "${MAINNET_VFN_IP}:${MAINNET_VFN_PORT}",
+          ]
+        labels:
+          chain: mainnet
 EOF
 
 # Start Prometheus with the generated configuration
